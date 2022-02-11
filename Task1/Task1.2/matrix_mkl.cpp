@@ -1,6 +1,5 @@
-#include <bits/stdc++.h>
-#include<mkl/mkl.h>
+#include "mkl.h"
 
-int main(int argc, char** argv){
-    return 0;
+void fullyConnectedMKL(float* inp,float* weight,float* bias,int a,int b,int c){
+    cblas_sgemm(CblasColMajor,CblasNoTrans,CblasNoTrans,a,c,b,1.0,inp,a,weight,b,1.0,bias,a);
 }
