@@ -5,8 +5,7 @@ namespace mklmult{
 namespace openblasmult{
     #include "matrix_openblas.cpp"
 }
-
-
+#include "matrix_pthread.cpp"
 int main(int argc,char** argv){
     std::string* args=new std::string[argc];
     for(int i=0;i<argc;i++){
@@ -61,7 +60,22 @@ int main(int argc,char** argv){
         resout<<a<<"\n";
         for(int i=0;i<c*a;i++) resout<<bias[i]<<"\n";
     }
-    else if(args[6]=="pthread"){}
+    else if(args[6]=="pthread"){
+        int b,a,c;
+        inpin>>b>>a;
+        float* inp=new float[a*b];
+        for(int i=0;i<a*b;i++) inpin>>inp[i];
+        weightin>>c>>b;
+        float* weight=new float[b*c];
+        for(int i=0;i<b*c;i++) weightin>>weight[i];
+        biasin>>c>>a;
+        float* bias=new float[c*a];
+        for(int i=0;i<c*a;i++) biasin>>bias[i];
+        fullyConnectedPthread(inp,weight,bias,a,b,c);
+        resout<<c<<"\n";
+        resout<<a<<"\n";
+        for(int i=0;i<c*a;i++) resout<<bias[i]<<"\n";
+    }
     else{
         std::cout<<"Invalid operation"<<std::endl;
         return 1;
