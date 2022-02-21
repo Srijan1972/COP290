@@ -14,7 +14,7 @@ int main(int argc,char** argv){
     if(args[1]!="fullyconnected"){
         std::cout<<"Invalid operation to be performed"<<std::endl;
         return 1;
-    }
+    } // accepting arguments
     std::ifstream inpin(args[2]);
     std::ifstream weightin(args[3]);
     std::ifstream biasin(args[4]);
@@ -37,7 +37,7 @@ int main(int argc,char** argv){
         // std::ofstream times;
         // times.open("openblas_times.txt",std::ios_base::app);
         // auto start=std::chrono::high_resolution_clock::now();
-        cblas_sgemm(CblasColMajor,CblasNoTrans,CblasNoTrans,a,c,b,1.0,inp,a,weight,b,1.0,bias,a);
+        cblas_sgemm(CblasColMajor,CblasNoTrans,CblasNoTrans,a,c,b,1.0,inp,a,weight,b,1.0,bias,a); // calling function
         // auto end=std::chrono::high_resolution_clock::now();
         // times<<std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count()<<std::endl;
         resout<<c<<"\n";
