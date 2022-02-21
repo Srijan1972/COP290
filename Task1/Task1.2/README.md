@@ -1,7 +1,5 @@
-# Authors :- Nischay Diwan and Srijan Gupta
-
 # COP290 Task 1.2: Using predifined libraries and p-threads to improve fullyconnected layer
-
+## Authors :- Nischay Diwan and Srijan Gupta
 
 ## Files:- 
 
