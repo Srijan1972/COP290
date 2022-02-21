@@ -93,10 +93,12 @@ int main(int argc,char** argv){
         biasin>>c>>a;
         float* bias=new float[c*a];
         for(int i=0;i<c*a;i++) biasin>>bias[i];
-        auto start=std::chrono::high_resolution_clock::now();
+        // std::ofstream times;
+        // times.open("pthread_times.txt",std::ios_base::app);
+        // auto start=std::chrono::high_resolution_clock::now();
         fullyConnectedPthread(inp,weight,bias,a,b,c);
-        auto end=std::chrono::high_resolution_clock::now();
-        std::cout<<std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count()<<std::endl;
+        // auto end=std::chrono::high_resolution_clock::now();
+        // times<<std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count()<<std::endl;
         resout<<c<<"\n";
         resout<<a<<"\n";
         for(int i=0;i<c*a;i++) resout<<bias[i]<<"\n";
