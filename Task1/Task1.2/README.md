@@ -59,6 +59,7 @@ The command should be of the format:
 Where `inputmatrix.txt`, `weightmatrix.txt` and `biasmatrix.txt` are `.txt` files containing the respective matrices and `outputmatrix.txt` will contain the resulting matrix.
 
 Where *type* is *mkl/pthread/openblas*
+*type* should be left empty for naive implementation.
 
 #### Gnuplot
 
