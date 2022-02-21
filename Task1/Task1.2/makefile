@@ -13,9 +13,8 @@ pthread:
 	
 clean:
 	rm yourcode.out
-	clear
 
 gen:
 	g++ matrix_gen.cpp -o yourcode.out
-	./a.out
+	./yourcode.out
 	rm yourcode.out

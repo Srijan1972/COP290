@@ -1,9 +1,8 @@
 # COP290 Task 1.2: Using predifined libraries and p-threads to improve fullyconnected layer
+
 ## Authors :- Nischay Diwan and Srijan Gupta
 
-## Files:- 
-
-matrix_gen.cpp: this generates input, weight and bias matrix files of random size of given dimensions.
+## Files:-
 
 matrix_mkl.cpp: this contains source code for generation of output files performing matrix calculations using intel mkl math library.
 
@@ -13,11 +12,9 @@ matrix_pthread.cpp: this contains source code for generation of output files per
 
 makefile: this contains compile codes for specific targets.
 
-combinedplot.gnu: this is gnuplot script to plot mean and SD of 100 iterations of a sample case, under each method, y axis is runtime in ns and x axis is 1-mkl, 2-openblas, 3-pthread.
+combinedplot.gnu: this is gnuplot script to plot the runtimes of 100 iterations of a sample case, under each method, y axis is runtime in ns and x axis is 1-mkl, 2-openblas, 3-pthread.
 
-combinedplot.png: box plot image if script, combinedplot.txt: list of times to plot.
-
-
+individualplots.gnu: this is gnuplot script to plot the mean and standard deviations of runtimes of 10 sample matrix size combinations.
 
 ## Features
 
@@ -25,7 +22,6 @@ combinedplot.png: box plot image if script, combinedplot.txt: list of times to p
 
 - **Implementation** in which a argument is passed while execution to choose which way to implement. (mkl, openblas, pthread( uses 4 threads))
 
-Prevoius Features: 
 <!-- - **Activation** Activating a matrix using either *relu* or *tanh* functions. (reluActivate,tanhActivate)
 
 - **Subsampling** Reducing the size of a square matrix by a certain factor by either *max* or *average* pooling. (maxPool,avgPool)
@@ -33,8 +29,6 @@ Prevoius Features:
 - **Probability Conversion** Converting a vector of values into a vector of probabilities using either the *softmax* or the *sigmoid* function. (softmaxProb,sigmoidProb)
 
 - **Exceptions handled-** Invalid function names, invalid types, invalid number of arguments and input file does not exist -->
-
-## Execution
 
 ### Compilation
 
@@ -106,6 +100,17 @@ The command should be of the format:
 Where *type* is *softmax/sigmoid*, `inputvector.txt` contains the input vector and `outputvector.txt` contains the output vector. -->
 
 #### Gnuplot
+
+```bash
+    gnuplot
+    load "combinedplot.gnu"
+    load "individualplots.gnu"
+```
+
+## Observations
+
+- MKL Library was both the most efficient and showed the least amount of deviation.
+- Our self made pthread implementation could not match running speeds of the pre-made libraries MKL and Openblas.
 
 ## Note
 
