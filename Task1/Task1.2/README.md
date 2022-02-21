@@ -40,6 +40,9 @@ This will compile the `matrix_openblas.cpp` file into an executable `yourcode.ou
 {Target} : pthread
 This will compile the `matrix_pthread.cpp` file into an executable `yourcode.out`
 
+{Target} : naive
+This will compile the `matrix_naive.cpp` file into an executable `yourcode.out`
+
 {Target} : clean
 This removes executable `yourcode.out`
 
@@ -69,6 +72,7 @@ Where *type* is *mkl/pthread/openblas*
 
 - MKL Library was both the most efficient and showed the least amount of deviation.
 - Our self made pthread implementation could not match running speeds of the pre-made libraries MKL and Openblas.
+- Naive implementation is faster for most of matrix sizes than pthread but less than pre-defined libraries.
 
 ## Note
 

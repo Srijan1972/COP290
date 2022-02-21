@@ -9,6 +9,9 @@ openblas:
 
 pthread:
 	g++ -pthread matrix_pthread.cpp -o yourcode.out
+
+naive:
+	g++ matrix_naive.cpp -o yourcode.out
 	
 clean:
 	rm yourcode.out

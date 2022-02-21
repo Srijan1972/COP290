@@ -7,7 +7,7 @@ float Wp[1000][1000]={0};
 float Bp[1000][1000]={0};
 int r = 0;
 int th;
-void* thrfunc(void* arg){
+void* thrfunc(void* arg){ // function assigned to thread each thread get multiples of p, p goes to 0 to n-1, n is rows
     if(r < da){
         int i = r++;
         while(i < da){
@@ -42,16 +42,16 @@ void fullyConnectedPthread(float* inp,float* weight,float* bias,int a,int b,int 
             Bp[i][j] = bias[a*j + i];
         }
     }
-    th = 4;
+    th = 4; // variable number of threads
     pthread_t threads[th];
     // pthread_attr_t attr;
     // pthread_attr_init(&attr);
     for (int i = 0; i < th; i++) {
         int* k;
-        pthread_create(&threads[i], NULL, thrfunc, (void*)(k));
+        pthread_create(&threads[i], NULL, thrfunc, (void*)(k)); // creating threads
     }
     for (int i = 0; i < th; i++) {
-        pthread_join(threads[i], NULL);  
+        pthread_join(threads[i], NULL);  // joining threads
     }
     for (int i = 0; i < a; i++) {
         for (int j = 0; j < c; j++) {
@@ -73,7 +73,7 @@ int main(int argc,char** argv){
     if(args[1]!="fullyconnected"){
         std::cout<<"Invalid operation to be performed"<<std::endl;
         return 1;
-    }
+    } // accepting arguments
     std::ifstream inpin(args[2]);
     std::ifstream weightin(args[3]);
     std::ifstream biasin(args[4]);
@@ -96,7 +96,7 @@ int main(int argc,char** argv){
         // std::ofstream times;
         // times.open("pthread_times.txt",std::ios_base::app);
         // auto start=std::chrono::high_resolution_clock::now();
-        fullyConnectedPthread(inp,weight,bias,a,b,c);
+        fullyConnectedPthread(inp,weight,bias,a,b,c); // calling functions
         // auto end=std::chrono::high_resolution_clock::now();
         // times<<std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count()<<std::endl;
         resout<<c<<"\n";
