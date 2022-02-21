@@ -51,9 +51,6 @@ This will compile the `matrix_pthread.cpp` file into an executable `yourcode.out
 {Target} : clean
 This clean executables `yourcode.out`
 
-{Target} : gen
-This will compile the `matrix_gen.cpp` file into an executable `yourcode.out` and clean it.
-
 ### Running Instructions
 
 #### Fully Connected Layer
@@ -67,37 +64,6 @@ The command should be of the format:
 Where `inputmatrix.txt`, `weightmatrix.txt` and `biasmatrix.txt` are `.txt` files containing the respective matrices and `outputmatrix.txt` will contain the resulting matrix.
 
 Where *type* is *mkl/pthread/openblas*
-
-Previous Instructions:
-<!-- #### Activation
-
-The command should be of the format:
-
-```bash
-    ./yourcode.out activation type inputmatrix.txt stride outputmatrix.txt
-```
-
-Where *type* is *relu/tanh*, `inputmatrix.txt` contains the input matrix, *stride* is the factor by which the size of the matrix is to be reduced and `outputmatrix.txt` contains the output matrix.
-
-#### Subsampling
-
-The command should be of the format:
-
-```bash
-    ./yourcode.out pooling type inputmatrix.txt outputmatrix.txt
-```
-
-Where *type* is *max/average*, `inputmatrix.txt` contains the input matrix and `outputmatrix.txt` contains the output matrix
-
-#### Probability
-
-The command should be of the format:
-
-```bash
-    ./yourcode.out probability type inputvector.txt outputvector.txt
-```
-
-Where *type* is *softmax/sigmoid*, `inputvector.txt` contains the input vector and `outputvector.txt` contains the output vector. -->
 
 #### Gnuplot
 
