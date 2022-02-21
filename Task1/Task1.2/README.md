@@ -22,14 +22,6 @@ individualplots.gnu: this is gnuplot script to plot the mean and standard deviat
 
 - **Implementation** in which a argument is passed while execution to choose which way to implement. (mkl, openblas, pthread( uses 4 threads))
 
-<!-- - **Activation** Activating a matrix using either *relu* or *tanh* functions. (reluActivate,tanhActivate)
-
-- **Subsampling** Reducing the size of a square matrix by a certain factor by either *max* or *average* pooling. (maxPool,avgPool)
-
-- **Probability Conversion** Converting a vector of values into a vector of probabilities using either the *softmax* or the *sigmoid* function. (softmaxProb,sigmoidProb)
-
-- **Exceptions handled-** Invalid function names, invalid types, invalid number of arguments and input file does not exist -->
-
 ### Compilation
 
 ```bash
@@ -49,7 +41,7 @@ This will compile the `matrix_openblas.cpp` file into an executable `yourcode.ou
 This will compile the `matrix_pthread.cpp` file into an executable `yourcode.out`
 
 {Target} : clean
-This clean executables `yourcode.out`
+This removes executable `yourcode.out`
 
 ### Running Instructions
 
