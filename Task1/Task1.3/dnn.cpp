@@ -41,14 +41,14 @@ void softmax(float* mat,int n){
 }
 
 int main(int argc,char** argv){
+    if(argc!=3){
+        cout<<"Invalid number of arguments"<<endl;
+        return 1;
+    }
     string* args=new string[argc];
     for(int i=0;i<argc;i++){
         string temp(argv[i]);
         args[i]=temp;
-    }
-    if(argc!=3){
-        cout<<"Invalid number of arguments"<<endl;
-        return 1;
     }
     int a=1,b=250,c=144;
     ifstream inpin(args[1]);
@@ -78,10 +78,8 @@ int main(int argc,char** argv){
     cblas_sgemm(CblasRowMajor,CblasNoTrans,CblasNoTrans,a,c,b,1.0,bias3,b,weight4,c,1.0,bias4,b); //FC4
     softmax(bias4,c*a);
     top3(bias4,c*a);
-    for(int i=0;i<c*a;i++) cout<<bias4[i]<<' ';
-    cout<<endl;
     ofstream resout;
-    resout.open(args[2],std::ios_base::app);
+    resout.open(args[2],ios_base::app);
     resout<<args[1]<<' '<<arr[p]<<' '<<arr[q]<<' '<<arr[r]<<' '<<bias4[p]<<' '<<bias4[q]<<' '<<bias4[r]<<endl;
     return 0;
 }
