@@ -19,6 +19,6 @@ int main(int argc,char** argv){
     string outfile(argv[2]);
     ofstream resout;
     resout.open(outfile,ios_base::app);
-    resout<<argv[1]<<' '<<arr[pred[0].label]<<' '<<arr[pred[1].label]<<arr[pred[2].label]<<' '<<pred[0].prob<<' '<<pred[1].prob<<' '<<pred[2].prob<<'\n';
+    resout<<argv[1]<<' '<<arr[pred[0].label]<<' '<<arr[pred[1].label]<<' '<<arr[pred[2].label]<<' '<<pred[0].prob<<' '<<pred[1].prob<<' '<<pred[2].prob<<'\n';
     return 0;
 }
