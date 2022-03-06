@@ -71,7 +71,7 @@ pred_t* libaudioAPI(const char* audiofeatures,pred_t* pred){
     cblas_sgemm(CblasRowMajor,CblasNoTrans,CblasNoTrans,a,c,b,1.0,bias3,b,weight4,c,1.0,bias4,b); //FC4
     softmax(bias4,c*a);
     top3(bias4,c*a);
-    pred=new pred_t[3];
+    // pred=new pred_t[3];
     pred[0].label=p;
     pred[0].prob=bias4[p];
     pred[1].label=q;

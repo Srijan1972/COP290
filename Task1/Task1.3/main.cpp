@@ -9,7 +9,7 @@ int main(int argc,char** argv){
         std::cout<<"Invalid number of arguments"<<std::endl;
         return 1;
     }
-    pred_t* pred=NULL;
+    pred_t* pred=new pred_t[3];;
     try{
         pred=libaudioAPI(argv[1],pred);
     }
