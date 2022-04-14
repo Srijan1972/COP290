@@ -1,0 +1,12 @@
+class Map
+{
+private:
+    enum tile_types{GRASS,ROAD,LHC1,LHC2,LHC3,LHC4,FOOT1,FOOT2,FOOT3,FOOT4,HOCKEY,CRICKET,KUMAON,ARA,GIRNAR,HIMADRI,KAILASH,KARA,NIL,JWALA,UDAI,SATPURA,ZANSKAR,SHIVA,VINDY,CSC,LIBRARY};
+public:
+    Map();
+    ~Map();
+};
+
+Map::Map(){}
+
+Map::~Map(){}

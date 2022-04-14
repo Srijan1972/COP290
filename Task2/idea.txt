@@ -1,5 +1,0 @@
-Maze of IIT Delhi, cannot enter buildings only move on roads.
-2 players.
-Have option of side
-Each side has player of different speed, range and health (Nahi hua to 2 character jinka same hai.)
-If possible- make that player only sees his location and uske around ka thoda area.

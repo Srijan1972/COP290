@@ -1,13 +1,26 @@
 # Files to be compiled
-OBJS=./src/main.cpp
+OBJS = ./src/main.cpp
 # Compiler Name
-CC=g++
+CC = g++
 # -w ignores all compiler warnings
-COMPILER_FLAGS=-w
+COMPILER_FLAGS = -w
 # Link to the libraries used
-LINKER_FLAGS=-lSDL2 -lSDL2_image
+LINKER_FLAGS = -lSDL2 -lSDL2_image
 # Name of the executable
-OBJ_NAME=game.out
+OBJ_NAME = duel
 
-all : $(OBJS)
+# Command to generate the executable
+all:
 	$(CC) $(OBJS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(OBJ_NAME)
+
+# Command to remove the executable
+clean:
+	rm $(OBJ_NAME)
+
+# For testing purposes
+test:
+	make && ./$(OBJ_NAME)
+
+# Regenerate the executable
+again:
+	make clean && make
