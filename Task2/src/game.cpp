@@ -2,7 +2,7 @@
 class Game
 {
 private:
-    SDL_Rect camera={0,0,SCREEN_WIDTH,SCREEN_HEIGHT};
+    SDL_Rect camera1={0,0,SCREEN_WIDTH,SCREEN_HEIGHT};
     bool gameOn;
     SDL_Window* window;
     SDL_Renderer* renderer;
@@ -35,17 +35,19 @@ public:
     void loadMedia(Tile* tileSet[]){
         tileMap=new Map();
         tileMap->load("./assets/images/tileMap.png",renderer);
+        pMap = new Map();
+        pMap->load("./assets/images/ch1.bmp",renderer);
         setTiles(tileSet);
         player=new Character();
-        player->move(tileSet);
-        player->adjustCamera(camera);
-        SDL_SetRenderDrawColor(renderer,0xFF,0xFF,0xFF,0xFF);
-        SDL_RenderClear(renderer);
-        for(int i=0;i<TOTAL_TILES;i++){
-            tileSet[i]->render(camera,tileMap,renderer);
-        }
-        player->render(camera,pMap,renderer);
-        SDL_RenderPresent(renderer);
+        // player->move(tileSet);
+        // player->adjustCamera(camera1);
+        // SDL_SetRenderDrawColor(renderer,0xFF,0xFF,0xFF,0xFF);
+        // SDL_RenderClear(renderer);
+        // for(int i=0;i<TOTAL_TILES;i++){
+        //     tileSet[i]->render(camera1,tileMap,renderer);
+        // }
+        // player->render(camera1,pMap,renderer);
+        // SDL_RenderPresent(renderer);
     }
 
     void handleEvents(){
@@ -60,17 +62,17 @@ public:
         }
         player->handleEvent(e);
     }
-    void update(SDL_Rect& camera,Tile* tileSet[]){
+    void update(Tile* tileSet[]){
         player->move(tileSet);
-        player->adjustCamera(camera);
+        player->adjustCamera(camera1);
     }
     void render(Tile* tileSet[]){
         SDL_SetRenderDrawColor(renderer,0xFF,0xFF,0xFF,0xFF);
         SDL_RenderClear(renderer);
         for(int i=0;i<TOTAL_TILES;i++){
-            tileSet[i]->render(camera,tileMap,renderer);
+            tileSet[i]->render(camera1,tileMap,renderer);
         }
-        player->render(camera,pMap,renderer);
+        player->render(camera1,pMap,renderer);
         SDL_RenderPresent(renderer);
     }
 

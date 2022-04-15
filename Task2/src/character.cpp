@@ -7,7 +7,7 @@ private:
 public:
     const int PL_WIDTH=48;
     const int PL_HEIGHT=48;
-    const int maxv=8;
+    const int maxv=10;
     Character(){
         char_box.x=240;
         char_box.y=0;
@@ -17,12 +17,35 @@ public:
     }
     ~Character(){}
     void handleEvent(SDL_Event &e){
-        if((e.type==SDL_KEYUP || e.type==SDL_KEYDOWN) && e.key.repeat==0){
-            switch (e.key.keysym.sym){
-                case SDLK_UP: vy=std::max(-1*maxv,vy-maxv); break;
-                case SDLK_DOWN: vy=std::max(maxv,vy+maxv); break;
-                case SDLK_LEFT: vx=std::min(maxv,vx+maxv); break;
-                case SDLK_RIGHT: vx=std::max(-1*maxv,vx-maxv); break;
+        // if((e.type==SDL_KEYUP || e.type==SDL_KEYDOWN) && e.key.repeat==0){
+        //     switch (e.key.keysym.sym){
+        //         case SDLK_UP: vy=std::max(-1*maxv,vy-maxv); break;
+        //         case SDLK_DOWN: vy=std::max(maxv,vy+maxv); break;
+        //         case SDLK_LEFT: vx=std::min(maxv,vx+maxv); break;
+        //         case SDLK_RIGHT: vx=std::max(-1*maxv,vx-maxv); break;
+        //     }
+        // }
+        if( e.type == SDL_KEYDOWN && e.key.repeat == 0 )
+        {
+            //Adjust the velocity
+            switch( e.key.keysym.sym )
+            {
+                case SDLK_UP: vy -= maxv; break;
+                case SDLK_DOWN: vy += maxv; break;
+                case SDLK_LEFT: vx -= maxv; break;
+                case SDLK_RIGHT: vx += maxv; break;
+            }
+        }
+        //If a key was released
+        else if( e.type == SDL_KEYUP && e.key.repeat == 0 )
+        {
+            //Adjust the velocity
+            switch( e.key.keysym.sym )
+            {
+                case SDLK_UP: vy += maxv; break;
+                case SDLK_DOWN: vy -= maxv; break;
+                case SDLK_LEFT: vx += maxv; break;
+                case SDLK_RIGHT: vx -= maxv; break;
             }
         }
     }
@@ -38,17 +61,17 @@ public:
         }
     }
 
-    void adjustCamera(SDL_Rect &camera){
-        camera.x=char_box.x+PL_WIDTH/2-LEVEL_WIDTH/2;
-        camera.y=char_box.y+PL_HEIGHT/2-LEVEL_HEIGHT/2;
+    void adjustCamera(SDL_Rect& camera){
+        camera.x=(char_box.x+PL_WIDTH/2)-SCREEN_WIDTH/2;
+        camera.y=(char_box.y+PL_HEIGHT/2)-SCREEN_HEIGHT/2;
         if(camera.x<0) camera.x=0;
         if(camera.y<0) camera.y=0;
-        if(camera.x>LEVEL_WIDTH) camera.x=LEVEL_WIDTH;
-        if(camera.y>LEVEL_HEIGHT) camera.y=LEVEL_HEIGHT;
+        if(camera.x>LEVEL_WIDTH-camera.w) camera.x=LEVEL_WIDTH-camera.w;
+        if(camera.y>LEVEL_HEIGHT-camera.h) camera.y=LEVEL_HEIGHT-camera.h;
     }
 
     void render(SDL_Rect &camera,Map* playerMap,SDL_Renderer* renderer){
-        playerMap->render(char_box.x-camera.x,char_box.y-char_box.y,NULL,renderer);
+        playerMap->render(char_box.x-camera.x,char_box.y-camera.y,NULL,renderer);
     }
 
     bool touchesWall(Tile* tiles[]){
