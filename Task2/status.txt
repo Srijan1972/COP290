@@ -1,2 +1,2 @@
-Map has been made.
-Character can move only on the roads using arrow keys.
+Map loading.
+Character addition currently giving segmentation fault.

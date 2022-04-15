@@ -43,9 +43,9 @@ const int TOTAL_TILES = 135;
 const int TOTAL_TILE_SPRITES = 40;
 
 //The different tile sprites
-const int TILE_Road = 2;
-const int TILE_Grass = 1;
 const int TILE_Floor = 0;
+const int TILE_Grass = 1;
+const int TILE_Road = 2;
 const int TILE_Zanskar = 3;
 const int TILE_Rajdhani = 4;
 const int TILE_Kumaon = 5;
@@ -164,14 +164,13 @@ public:
 
 void setTiles(Tile* tiles[]){
     int x=0,y=0;
-    std::ifstream map("./src/lazy1.map");
+    std::ifstream map("./assets/lazy1.map");
     if(map.fail()){
         std::cerr<<"Unable to load map"<<std::endl;
         exit(1);
     }
 	//Initialize the tiles
-	for( int i = 0; i < TOTAL_TILES; ++i )
-	{
+	for( int i = 0; i < TOTAL_TILES; ++i){
 		//Determines what kind of tile will be made
 		int tileType = -1;
 		//Read tile from map file
@@ -187,18 +186,18 @@ void setTiles(Tile* tiles[]){
 			//If we don't recognize the tile type
 		else{
 			std::cerr<<"Invalid tile type at: "<<i<<std::endl;
-			printf( "Error loading map: Invalid tile type at %d!\n", i );
+			exit(1);
     	}
 
 		//Move to next tile spot
 		x += TILE_WIDTH;
 			//If we've gone too far
-			if( x >= LEVEL_WIDTH ){
-				//Move back
-				x = 0;
-				//Move to the next row
-				y += TILE_HEIGHT;
-			}
+		if( x >= LEVEL_WIDTH ){
+			//Move back
+			x = 0;
+			//Move to the next row
+			y += TILE_HEIGHT;
+		}
 	}
 
 	gTileClips[ TILE_Grass ].x = 960;

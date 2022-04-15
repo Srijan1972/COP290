@@ -1,4 +1,3 @@
-#include<bits/stdc++.h>
 #include "game.cpp"
 
 Game* game;
@@ -14,7 +13,7 @@ int main(int argc,char* argv[]){
         std::cout<<"Warning: Linear texture filtering not enabled"<<std::endl;
     }
     game=new Game();
-    game->init("IITD Duel",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,SCREEN_WIDTH,SCREEN_HEIGHT);
+    game->init("IIT Delhi Duel",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,SCREEN_WIDTH,SCREEN_HEIGHT);
     Tile* tileSet[TOTAL_TILES];
     game->loadMedia(tileSet);
     SDL_Rect camera={0,0,SCREEN_WIDTH,SCREEN_HEIGHT};
@@ -24,7 +23,7 @@ int main(int argc,char* argv[]){
         start=SDL_GetTicks();
         game->handleEvents();
         game->update(camera,tileSet);
-        game->render();
+        game->render(tileSet);
         frame_length=SDL_GetTicks()-start;
         SDL_Delay(std::max(delay-frame_length,0)); // Synchronize device refresh rate and game UI change rate
     }

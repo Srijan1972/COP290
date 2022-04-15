@@ -10,12 +10,12 @@ This game will run only on a Linux machine (Tested only on Ubuntu)
 
 ## Running Instructions
 
-- The command `make` compiles all the files into an executable `game.out`.
-- The command `./game.out` opens the game.
+- The command `make` compiles all the files into an executable `duel`.
+- The command `./duel` runs the game.
 
 ```bash
 make
-./game.out
+./duel
 ```
 
 The command `make clean` deletes the executable and then `make` can be run again to recompile the game.

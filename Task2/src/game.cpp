@@ -1,7 +1,4 @@
-#include<SDL2/SDL.h>
-#include<SDL2/SDL_image.h>
-#include<iostream>
-#include "map.cpp"
+#include "character.cpp"
 class Game
 {
 private:
@@ -10,11 +7,13 @@ private:
     SDL_Window* window;
     SDL_Renderer* renderer;
     Map* tileMap;
+    Map* pMap;
+    Character* player;
 public:
     Game(){};
     ~Game(){};
     void init(const char* title,int xpos,int ypos,int width,int height){
-    window=SDL_CreateWindow(title,xpos,ypos,width,height,SDL_WINDOW_SHOWN);
+        window=SDL_CreateWindow(title,xpos,ypos,width,height,SDL_WINDOW_SHOWN);
         if(window==NULL){
             std::cerr<<"Error in creating window: "<<SDL_GetError()<<std::endl;
             exit(1);
@@ -35,38 +34,46 @@ public:
 
     void loadMedia(Tile* tileSet[]){
         tileMap=new Map();
-        tileMap->load("./src/final3.png",renderer);
+        tileMap->load("./assets/images/tileMap.png",renderer);
         setTiles(tileSet);
+        player=new Character();
+        player->move(tileSet);
+        player->adjustCamera(camera);
         SDL_SetRenderDrawColor(renderer,0xFF,0xFF,0xFF,0xFF);
         SDL_RenderClear(renderer);
         for(int i=0;i<TOTAL_TILES;i++){
             tileSet[i]->render(camera,tileMap,renderer);
         }
+        player->render(camera,pMap,renderer);
         SDL_RenderPresent(renderer);
     }
 
     void handleEvents(){
-        SDL_FlushEvent(SDL_MOUSEMOTION);
         SDL_Event e;
-        while(SDL_PollEvent(&e)!=0){
-            switch (e.type){
-                case SDL_QUIT:
-                    gameOn=false;
-                    break;
-                default:
-                    break;
-            }
+        SDL_PollEvent(&e);
+        switch (e.type){
+            case SDL_QUIT:
+                gameOn=false;
+                break;
+            default:
+                break;
         }
+        player->handleEvent(e);
     }
     void update(SDL_Rect& camera,Tile* tileSet[]){
+        player->move(tileSet);
+        player->adjustCamera(camera);
+    }
+    void render(Tile* tileSet[]){
         SDL_SetRenderDrawColor(renderer,0xFF,0xFF,0xFF,0xFF);
         SDL_RenderClear(renderer);
         for(int i=0;i<TOTAL_TILES;i++){
             tileSet[i]->render(camera,tileMap,renderer);
         }
+        player->render(camera,pMap,renderer);
         SDL_RenderPresent(renderer);
     }
-    void render(){}
+
     void clean(Tile* tileSet[]){
         for(int i=0;i<TOTAL_TILES;i++){
             if(tileSet[i]!=NULL){
@@ -75,10 +82,12 @@ public:
             }
         }
         tileMap->free();
+        pMap->free();
         SDL_DestroyWindow(window);
         SDL_DestroyRenderer(renderer);
         IMG_Quit();
         SDL_Quit();
     }
+
     bool on(){return gameOn;}
 };
