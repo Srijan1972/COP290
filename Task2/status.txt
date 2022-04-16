@@ -1,2 +1,3 @@
-Map and Character both loading.
-Character is able to move with arrow keys and the background also changes as the character moves.
+2 players can play on localhost.
+Both characters are movable via arrow keys.
+Background music also playing.

@@ -4,7 +4,9 @@ class Character{
 private:
     SDL_Rect char_box;
     int vx,vy;
+    bool attacking;
 public:
+    int health=1000;
     const int PL_WIDTH=48;
     const int PL_HEIGHT=48;
     const int maxv=10;
@@ -26,6 +28,7 @@ public:
                 case SDLK_DOWN: vy += maxv; break;
                 case SDLK_LEFT: vx -= maxv; break;
                 case SDLK_RIGHT: vx += maxv; break;
+                case SDLK_SPACE: attacking=true; break;
             }
         }
         //If a key was released
@@ -38,6 +41,7 @@ public:
                 case SDLK_DOWN: vy -= maxv; break;
                 case SDLK_LEFT: vx += maxv; break;
                 case SDLK_RIGHT: vx -= maxv; break;
+                case SDLK_SPACE: attacking=true; break;
             }
         }
     }
@@ -58,11 +62,19 @@ public:
         p.first = char_box.x;
         p.second = char_box.y;
         return p;
-    }    
+    }
 
-    void moveop(std::pair<int,int> loc){
-        char_box.x=loc.first;
-        char_box.y=loc.second;
+    SDL_Rect getBox(){return char_box;}
+
+    void attack(Character* other){
+        if(attacking && checkCollision(char_box,other->getBox())) other->health-=50;
+        attacking=false;
+    }
+
+    void update(std::vector<int> data,Character* other){
+        char_box.x=data[0];
+        char_box.y=data[1];
+        other->health=data[2];
     }
 
     void adjustCamera(SDL_Rect& camera){

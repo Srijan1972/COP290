@@ -1,16 +1,25 @@
 #include "character.cpp"
 #include "server.cpp"
 #include "client.cpp"
-std::pair<int,int> dataDecode(std::string s){
-    std::pair<int,int> p;
+#include "interface.cpp"
+
+std::vector<int> dataDecode(std::string s){
+    std::vector<int> v;
     std::stringstream ss(s);
     std::string pos;
-    ss>>pos;
-    p.first=std::stoi(pos);
-    ss>>pos;
-    p.second=std::stoi(pos);
-    return p;
+    while(ss>>pos) v.push_back(std::stoi(pos));
+    return v;
 }
+// std::pair<int,int> dataDecode(std::string s){
+//     std::pair<int,int> p;
+//     std::stringstream ss(s);
+//     std::string pos;
+//     ss>>pos;
+//     p.first=std::stoi(pos);
+//     ss>>pos;
+//     p.second=std::stoi(pos);
+//     return p;
+// }
 class Game
 {
 private:
@@ -28,6 +37,7 @@ private:
     Client* C;
     std::pair<int,int> loc1;
     std::pair<int,int> loc2;
+    // Interface* interface;
 public:
     Game(){};
     ~Game(){};
@@ -48,6 +58,7 @@ public:
             std::cerr<<"Error in initializing image: "<<IMG_GetError()<<std::endl;
             exit(1);
     	}
+        // interface=new Interface(window,renderer);
         gameOn=true;
     }
 
@@ -88,20 +99,21 @@ public:
         if(i == 1) player2->handleEvent(e);
     }
     void update(Tile* tileSet[],int i){
+        player1->attack(player2);
+        player2->attack(player1);
         if(i == 0){
             player1->move(tileSet);
             player1->adjustCamera(camera1);
-            player2->moveop(dataDecode(S->get()));
+            player2->update(dataDecode(S->get()),player1);
             loc1 = player1->giveloc();
-            S->send(std::to_string(loc1.first) + " " + std::to_string(loc1.second));
+            S->send(std::to_string(loc1.first) + " " + std::to_string(loc1.second) + " " + std::to_string(player2->health));
 
         }else if(i == 1){
             player2->move(tileSet);
             player2->adjustCamera(camera1);
             loc2 = player2->giveloc();
-            C->send(std::to_string(loc2.first) + " " + std::to_string(loc2.second));
-            player1->moveop(dataDecode(C->get()));
-
+            C->send(std::to_string(loc2.first) + " " + std::to_string(loc2.second) + " " + std::to_string(player1->health));
+            player1->update(dataDecode(C->get()),player2);
         }
     }
             
