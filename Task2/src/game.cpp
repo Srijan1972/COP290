@@ -7,8 +7,10 @@ private:
     SDL_Window* window;
     SDL_Renderer* renderer;
     Map* tileMap;
-    Map* pMap;
-    Character* player;
+    Map* pMap1;
+    Character* player1;
+    Map* pMap2;
+    Character* player2;
 public:
     Game(){};
     ~Game(){};
@@ -35,10 +37,12 @@ public:
     void loadMedia(Tile* tileSet[]){
         tileMap=new Map();
         tileMap->load("./assets/images/tileMap.png",renderer);
-        pMap = new Map();
-        pMap->load("./assets/images/ch1.bmp",renderer);
+        pMap1 = new Map();
+        pMap1->load("./assets/images/ch2.png",renderer);
+        pMap2 = new Map();
+        pMap2->load("./assets/images/ch1.bmp",renderer);
         setTiles(tileSet);
-        player=new Character();
+        // player= new Character();
         // player->move(tileSet);
         // player->adjustCamera(camera1);
         // SDL_SetRenderDrawColor(renderer,0xFF,0xFF,0xFF,0xFF);
@@ -50,7 +54,12 @@ public:
         // SDL_RenderPresent(renderer);
     }
 
-    void handleEvents(){
+    void loadplayers(){
+        player1= new Character(240,0);
+        player2= new Character(240,1120);
+    }
+
+    void handleEvents(int i){
         SDL_Event e;
         SDL_PollEvent(&e);
         switch (e.type){
@@ -60,19 +69,27 @@ public:
             default:
                 break;
         }
-        player->handleEvent(e);
+        if(i == 0) player1->handleEvent(e);
+        if(i == 1) player2->handleEvent(e);
     }
-    void update(Tile* tileSet[]){
-        player->move(tileSet);
-        player->adjustCamera(camera1);
+    void update(Tile* tileSet[],int i){
+        if(i == 0){
+            player1->move(tileSet);
+            player1->adjustCamera(camera1);
+        }else if(i == 1){
+            player2->move(tileSet);
+            player2->adjustCamera(camera1);
+        }
     }
-    void render(Tile* tileSet[]){
+            
+    void render(Tile* tileSet[],int i){
         SDL_SetRenderDrawColor(renderer,0xFF,0xFF,0xFF,0xFF);
         SDL_RenderClear(renderer);
         for(int i=0;i<TOTAL_TILES;i++){
             tileSet[i]->render(camera1,tileMap,renderer);
         }
-        player->render(camera1,pMap,renderer);
+        player1->render(camera1,pMap1,renderer);
+        player2->render(camera1,pMap2,renderer);
         SDL_RenderPresent(renderer);
     }
 
@@ -84,7 +101,8 @@ public:
             }
         }
         tileMap->free();
-        pMap->free();
+        pMap1->free();
+        pMap2->free();
         SDL_DestroyWindow(window);
         SDL_DestroyRenderer(renderer);
         IMG_Quit();

@@ -8,9 +8,9 @@ public:
     const int PL_WIDTH=48;
     const int PL_HEIGHT=48;
     const int maxv=10;
-    Character(){
-        char_box.x=240;
-        char_box.y=0;
+    Character(int posx,int posy){
+        char_box.x=posx;
+        char_box.y=posy;
         char_box.w=PL_WIDTH;
         char_box.h=PL_HEIGHT;
         vx=vy=0;
