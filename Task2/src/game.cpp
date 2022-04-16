@@ -1,4 +1,16 @@
 #include "character.cpp"
+#include "server.cpp"
+#include "client.cpp"
+std::pair<int,int> dataDecode(std::string s){
+    std::pair<int,int> p;
+    std::stringstream ss(s);
+    std::string pos;
+    ss>>pos;
+    p.first=std::stoi(pos);
+    ss>>pos;
+    p.second=std::stoi(pos);
+    return p;
+}
 class Game
 {
 private:
@@ -11,6 +23,10 @@ private:
     Character* player1;
     Map* pMap2;
     Character* player2;
+    Server* S;
+    Client* C;
+    std::pair<int,int> loc1;
+    std::pair<int,int> loc2;
 public:
     Game(){};
     ~Game(){};
@@ -42,21 +58,17 @@ public:
         pMap2 = new Map();
         pMap2->load("./assets/images/ch1.bmp",renderer);
         setTiles(tileSet);
-        // player= new Character();
-        // player->move(tileSet);
-        // player->adjustCamera(camera1);
-        // SDL_SetRenderDrawColor(renderer,0xFF,0xFF,0xFF,0xFF);
-        // SDL_RenderClear(renderer);
-        // for(int i=0;i<TOTAL_TILES;i++){
-        //     tileSet[i]->render(camera1,tileMap,renderer);
-        // }
-        // player->render(camera1,pMap,renderer);
-        // SDL_RenderPresent(renderer);
     }
 
-    void loadplayers(){
+    void loadplayers(int i){
         player1= new Character(240,0);
         player2= new Character(240,1120);
+        if (i == 0){
+            S = new Server("127.0.0.1");
+        }
+        if (i == 1){
+            C = new Client("127.0.0.1");
+        }
     }
 
     void handleEvents(int i){
@@ -76,9 +88,19 @@ public:
         if(i == 0){
             player1->move(tileSet);
             player1->adjustCamera(camera1);
+            player2->moveop(dataDecode(S->get()));
+            loc1 = player1->giveloc();
+            std::cout<<std::to_string(loc1.first) + " " + std::to_string(loc1.second)<<std::endl;
+            S->send(std::to_string(loc1.first) + " " + std::to_string(loc1.second));
+
         }else if(i == 1){
             player2->move(tileSet);
             player2->adjustCamera(camera1);
+            loc2 = player2->giveloc();
+            std::cout<<std::to_string(loc2.first) + " " + std::to_string(loc2.second)<<std::endl;
+            C->send(std::to_string(loc2.first) + " " + std::to_string(loc2.second));
+            player1->moveop(dataDecode(C->get()));
+
         }
     }
             
@@ -93,7 +115,7 @@ public:
         SDL_RenderPresent(renderer);
     }
 
-    void clean(Tile* tileSet[]){
+    void clean(Tile* tileSet[],int i){
         for(int i=0;i<TOTAL_TILES;i++){
             if(tileSet[i]!=NULL){
                 delete tileSet[i];
@@ -107,6 +129,8 @@ public:
         SDL_DestroyRenderer(renderer);
         IMG_Quit();
         SDL_Quit();
+        if(i == 0){ S->end();}
+        if(i == 1){ C->end();}
     }
 
     bool on(){return gameOn;}

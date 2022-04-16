@@ -17,14 +17,6 @@ public:
     }
     ~Character(){}
     void handleEvent(SDL_Event &e){
-        // if((e.type==SDL_KEYUP || e.type==SDL_KEYDOWN) && e.key.repeat==0){
-        //     switch (e.key.keysym.sym){
-        //         case SDLK_UP: vy=std::max(-1*maxv,vy-maxv); break;
-        //         case SDLK_DOWN: vy=std::max(maxv,vy+maxv); break;
-        //         case SDLK_LEFT: vx=std::min(maxv,vx+maxv); break;
-        //         case SDLK_RIGHT: vx=std::max(-1*maxv,vx-maxv); break;
-        //     }
-        // }
         if( e.type == SDL_KEYDOWN && e.key.repeat == 0 )
         {
             //Adjust the velocity
@@ -59,6 +51,18 @@ public:
         if(char_box.y<0 || char_box.y+PL_HEIGHT>LEVEL_HEIGHT || touchesWall(tileSet)){
             char_box.y-=vy;
         }
+    }
+
+    std::pair<int,int> giveloc(){
+        std::pair<int,int> p;
+        p.first = char_box.x;
+        p.second = char_box.y;
+        return p;
+    }    
+
+    void moveop(std::pair<int,int> loc){
+        char_box.x=loc.first;
+        char_box.y=loc.second;
     }
 
     void adjustCamera(SDL_Rect& camera){
