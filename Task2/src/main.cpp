@@ -13,12 +13,15 @@ int main(int argc,char* argv[]){
     if(!SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY,"1")){
         std::cout<<"Warning: Linear texture filtering not enabled"<<std::endl;
     }
+    if (Mix_OpenAudio(44100,MIX_DEFAULT_FORMAT,2,2048)!=0){
+        std::cerr<<"Failed to initialize sound: "<<Mix_GetError()<<std::endl;
+        return 1;
+    }
     game=new Game();
     game->init("IIT Delhi Duel",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,SCREEN_WIDTH,SCREEN_HEIGHT);
     Tile* tileSet[TOTAL_TILES];
     game->loadMedia(tileSet);
     game->loadplayers();
-    // SDL_Rect camera={0,0,SCREEN_WIDTH,SCREEN_HEIGHT};
     Uint32 start;
     int frame_length;
     while(game->on()){

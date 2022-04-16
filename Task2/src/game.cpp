@@ -6,6 +6,7 @@ private:
     bool gameOn;
     SDL_Window* window;
     SDL_Renderer* renderer;
+    Mix_Music* bgmusic;
     Map* tileMap;
     Map* pMap1;
     Character* player1;
@@ -42,6 +43,8 @@ public:
         pMap2 = new Map();
         pMap2->load("./assets/images/ch1.bmp",renderer);
         setTiles(tileSet);
+        bgmusic=Mix_LoadMUS("./assets/sounds/Duel_of_the_Fates.mp3");
+        Mix_PlayMusic(bgmusic,-1);
         // player= new Character();
         // player->move(tileSet);
         // player->adjustCamera(camera1);
@@ -105,6 +108,8 @@ public:
         pMap2->free();
         SDL_DestroyWindow(window);
         SDL_DestroyRenderer(renderer);
+        Mix_FreeMusic(bgmusic);
+        Mix_Quit();
         IMG_Quit();
         SDL_Quit();
     }

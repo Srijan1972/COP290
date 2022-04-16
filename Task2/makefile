@@ -5,7 +5,7 @@ CC = g++
 # -w ignores all compiler warnings
 COMPILER_FLAGS = -w
 # Link to the libraries used
-LINKER_FLAGS = -lSDL2 -lSDL2_image
+LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_mixer
 # Name of the executable
 OBJ_NAME = duel
 
@@ -16,6 +16,7 @@ all:
 # Command to remove the executable
 clean:
 	rm $(OBJ_NAME)
+	clear
 
 # For testing purposes
 test:

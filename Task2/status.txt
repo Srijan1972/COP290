@@ -1,2 +1,2 @@
-Map loading.
-Character addition currently giving segmentation fault.
+Map and Character both loading.
+Character is able to move with arrow keys and the background also changes as the character moves.
