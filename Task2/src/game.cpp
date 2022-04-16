@@ -18,6 +18,7 @@ private:
     bool gameOn;
     SDL_Window* window;
     SDL_Renderer* renderer;
+    Mix_Music* bgmusic;
     Map* tileMap;
     Map* pMap1;
     Character* player1;
@@ -58,6 +59,8 @@ public:
         pMap2 = new Map();
         pMap2->load("./assets/images/ch1.bmp",renderer);
         setTiles(tileSet);
+        bgmusic=Mix_LoadMUS("./assets/sounds/Duel_of_the_Fates.mp3");
+        Mix_PlayMusic(bgmusic,-1);
     }
 
     void loadplayers(int i){
@@ -90,14 +93,12 @@ public:
             player1->adjustCamera(camera1);
             player2->moveop(dataDecode(S->get()));
             loc1 = player1->giveloc();
-            std::cout<<std::to_string(loc1.first) + " " + std::to_string(loc1.second)<<std::endl;
             S->send(std::to_string(loc1.first) + " " + std::to_string(loc1.second));
 
         }else if(i == 1){
             player2->move(tileSet);
             player2->adjustCamera(camera1);
             loc2 = player2->giveloc();
-            std::cout<<std::to_string(loc2.first) + " " + std::to_string(loc2.second)<<std::endl;
             C->send(std::to_string(loc2.first) + " " + std::to_string(loc2.second));
             player1->moveop(dataDecode(C->get()));
 
@@ -127,6 +128,8 @@ public:
         pMap2->free();
         SDL_DestroyWindow(window);
         SDL_DestroyRenderer(renderer);
+        Mix_FreeMusic(bgmusic);
+        Mix_Quit();
         IMG_Quit();
         SDL_Quit();
         if(i == 0){ S->end();}
