@@ -56,7 +56,7 @@ public:
 	    
 	    // Recieve the message
 	    int bytesRecieved = recvfrom(sockVal, buffer, sizeof(buffer), 0, (struct sockaddr *)&client, &l);
-	    
+
 	    // Return the message
 	    return std::string(buffer, bytesRecieved);
 	}

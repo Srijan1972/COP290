@@ -26,10 +26,10 @@ int main(int argc,char* argv[]){
     game->init("IIT Delhi Duel",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,SCREEN_WIDTH,SCREEN_HEIGHT);
     Tile* tileSet[TOTAL_TILES];
     game->loadMedia(tileSet);
-    game->loadplayers(i);
+    game->loadplayers();
     Uint32 start;
     int frame_length;
-    int frames;
+    int frames=0;
     while(game->on()){
         if(frames == 600){
             frames = 0;
@@ -38,14 +38,14 @@ int main(int argc,char* argv[]){
             flag = true;
         }
         start=SDL_GetTicks();
-        game->handleEvents(i);
-        game->update(tileSet,i,flag);
-        game->datasend(i);
-        game->render(tileSet,i);
+        game->handleEvents();
+        game->update(tileSet,flag);
+        game->datasend();
+        game->render(tileSet);
         frame_length=SDL_GetTicks()-start;
         SDL_Delay(std::max(delay-frame_length,0)); // Synchronize device refresh rate and game UI change rate
         frames++;
     }
-    game->clean(tileSet,i);
+    game->clean(tileSet);
     return 0;
 }

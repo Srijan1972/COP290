@@ -43,9 +43,10 @@ private:
     int atck21;
     // Interface* interface;
     TTF_Font* font1;
-    SDL_Texture* fontarea;
+    SDL_Texture* menu;
     int health_width;
     int health_height;
+    int i;
 public:
     Game(){};
     ~Game(){};
@@ -67,14 +68,45 @@ public:
             exit(1);
     	}
         // interface=new Interface(window,renderer);
-        if(font1==NULL){
-            std::cerr<<"Failed to load font: "<<TTF_GetError()<<std::endl;
-            exit(1);
-        }
+        // if(font1==NULL){
+        //     std::cerr<<"Failed to load font: "<<TTF_GetError()<<std::endl;
+        //     exit(1);
+        // }
         gameOn=true;
     }
 
     void loadMedia(Tile* tileSet[]){
+        SDL_Surface* temp=IMG_Load("./assets/images/front 2.png");
+        menu=SDL_CreateTextureFromSurface(renderer,temp);
+        SDL_FreeSurface(temp);
+        SDL_Rect bg={0,0,960,540};
+        SDL_SetRenderDrawColor(renderer,255,255,255,255);
+        SDL_RenderClear(renderer);
+        SDL_RenderCopy(renderer,menu,NULL,&bg);
+        SDL_RenderPresent(renderer);
+        bool flag=true;
+        while(flag){
+            SDL_Event e;
+            while(SDL_PollEvent(&e)!=0){
+                if(e.type == SDL_KEYDOWN && e.key.repeat == 0){
+                switch(e.key.keysym.sym){
+                        case SDLK_h:
+                            i=0; flag=false; break;
+                        case SDLK_j:
+                            i=1; flag=false; break;
+                    }
+                }
+                else if(e.type == SDL_KEYUP && e.key.repeat == 0){
+                    switch(e.key.keysym.sym){
+                        case SDLK_h:
+                            i=0; flag=false; break;
+                        case SDLK_j:
+                            i=1; flag=false; break;
+                    }
+                }
+            }
+        }
+        SDL_DestroyTexture(menu);
         tileMap=new Map();
         tileMap->load("./assets/images/tileMap.png",renderer);
         pMap1 = new Map();
@@ -88,7 +120,7 @@ public:
         Mix_PlayMusic(bgmusic,-1);
     }
 
-    void loadplayers(int i){
+    void loadplayers(){
         player1= new Character(240,0);
         player2= new Character(240,1120);
         if (i == 0){
@@ -99,7 +131,7 @@ public:
         }
     }
 
-    void handleEvents(int i){
+    void handleEvents(){
         SDL_Event e;
         SDL_PollEvent(&e);
         switch (e.type){
@@ -112,7 +144,7 @@ public:
         if(i == 0) player1->handleEvent(e);
         if(i == 1) player2->handleEvent(e);
     }
-    void update(Tile* tileSet[],int i,bool lifeflag){
+    void update(Tile* tileSet[],bool lifeflag){
         if(lifeflag){
             life= new Character(540,880);
         }else{
@@ -141,7 +173,7 @@ public:
         }
     }
 
-    void datasend(int i){
+    void datasend(){
         if(i == 0){
             player2->update(dataDecode(S->get()),player1);
             S->send(std::to_string(loc1.first) + " " + std::to_string(loc1.second) + " " + std::to_string(player1->health) + " " + std::to_string(atck12));
@@ -152,20 +184,73 @@ public:
         }
     }
             
-    void render(Tile* tileSet[],int i){
-        SDL_SetRenderDrawColor(renderer,0xFF,0xFF,0xFF,0xFF);
-        SDL_RenderClear(renderer);
-        for(int i=0;i<TOTAL_TILES;i++){
-            tileSet[i]->render(camera1,tileMap,renderer);
+    void render(Tile* tileSet[]){
+        if(player1->health<=0 && i==0){
+            S->end();
+            SDL_Surface* temp=IMG_Load("./assets/images/lost.png");
+            menu=SDL_CreateTextureFromSurface(renderer,temp);
+            SDL_FreeSurface(temp);
+            SDL_Rect bg={0,0,960,540};
+            SDL_SetRenderDrawColor(renderer,255,255,255,255);
+            SDL_RenderClear(renderer);
+            SDL_RenderCopy(renderer,menu,NULL,&bg);
+            SDL_RenderPresent(renderer);
+            SDL_Delay(15000);
+            gameOn=false;
         }
-        player1->render(camera1,pMap1,renderer);
-        player2->render(camera1,pMap2,renderer);
-        life->render(camera1,pMap3,renderer);
-        SDL_RenderPresent(renderer);
-        // std::cout<<player1->health<<" "<<player2->health<<"\n";
+        if(player1->health<=0 && i==1){
+            C->end();
+            SDL_Surface* temp=IMG_Load("./assets/images/win.png");
+            menu=SDL_CreateTextureFromSurface(renderer,temp);
+            SDL_FreeSurface(temp);
+            SDL_Rect bg={0,0,960,540};
+            SDL_SetRenderDrawColor(renderer,255,255,255,255);
+            SDL_RenderClear(renderer);
+            SDL_RenderCopy(renderer,menu,NULL,&bg);
+            SDL_RenderPresent(renderer);
+            SDL_Delay(15000);
+            gameOn=false;
+        }
+        if(player2->health<=0 && i==0){
+            S->end();
+            SDL_Surface* temp=IMG_Load("./assets/images/win.png");
+            menu=SDL_CreateTextureFromSurface(renderer,temp);
+            SDL_FreeSurface(temp);
+            SDL_Rect bg={0,0,960,540};
+            SDL_SetRenderDrawColor(renderer,255,255,255,255);
+            SDL_RenderClear(renderer);
+            SDL_RenderCopy(renderer,menu,NULL,&bg);
+            SDL_RenderPresent(renderer);
+            SDL_Delay(15000);
+            gameOn=false;
+        }
+        if(player2->health<=0 && i==1){
+            C->end();
+            SDL_Surface* temp=IMG_Load("./assets/images/lost.png");
+            menu=SDL_CreateTextureFromSurface(renderer,temp);
+            SDL_FreeSurface(temp);
+            SDL_Rect bg={0,0,960,540};
+            SDL_SetRenderDrawColor(renderer,255,255,255,255);
+            SDL_RenderClear(renderer);
+            SDL_RenderCopy(renderer,menu,NULL,&bg);
+            SDL_RenderPresent(renderer);
+            SDL_Delay(15000);
+            gameOn=false;
+        }
+        else{
+            SDL_SetRenderDrawColor(renderer,0xFF,0xFF,0xFF,0xFF);
+            SDL_RenderClear(renderer);
+            for(int i=0;i<TOTAL_TILES;i++){
+                tileSet[i]->render(camera1,tileMap,renderer);
+            }
+            player1->render(camera1,pMap1,renderer);
+            player2->render(camera1,pMap2,renderer);
+            life->render(camera1,pMap3,renderer);
+            SDL_RenderPresent(renderer);
+        }
     }
 
-    void clean(Tile* tileSet[],int i){
+    void clean(Tile* tileSet[]){
         for(int i=0;i<TOTAL_TILES;i++){
             if(tileSet[i]!=NULL){
                 delete tileSet[i];
