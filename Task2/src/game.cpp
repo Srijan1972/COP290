@@ -195,10 +195,10 @@ public:
             SDL_RenderClear(renderer);
             SDL_RenderCopy(renderer,menu,NULL,&bg);
             SDL_RenderPresent(renderer);
-            SDL_Delay(15000);
+            SDL_Delay(10000);
             gameOn=false;
         }
-        if(player1->health<=0 && i==1){
+        else if(player1->health<=0 && i==1){
             C->end();
             SDL_Surface* temp=IMG_Load("./assets/images/win.png");
             menu=SDL_CreateTextureFromSurface(renderer,temp);
@@ -208,10 +208,10 @@ public:
             SDL_RenderClear(renderer);
             SDL_RenderCopy(renderer,menu,NULL,&bg);
             SDL_RenderPresent(renderer);
-            SDL_Delay(15000);
+            SDL_Delay(10000);
             gameOn=false;
         }
-        if(player2->health<=0 && i==0){
+        else if(player2->health<=0 && i==0){
             S->end();
             SDL_Surface* temp=IMG_Load("./assets/images/win.png");
             menu=SDL_CreateTextureFromSurface(renderer,temp);
@@ -221,10 +221,10 @@ public:
             SDL_RenderClear(renderer);
             SDL_RenderCopy(renderer,menu,NULL,&bg);
             SDL_RenderPresent(renderer);
-            SDL_Delay(15000);
+            SDL_Delay(10000);
             gameOn=false;
         }
-        if(player2->health<=0 && i==1){
+        else if(player2->health<=0 && i==1){
             C->end();
             SDL_Surface* temp=IMG_Load("./assets/images/lost.png");
             menu=SDL_CreateTextureFromSurface(renderer,temp);
@@ -234,7 +234,7 @@ public:
             SDL_RenderClear(renderer);
             SDL_RenderCopy(renderer,menu,NULL,&bg);
             SDL_RenderPresent(renderer);
-            SDL_Delay(15000);
+            SDL_Delay(10000);
             gameOn=false;
         }
         else{
