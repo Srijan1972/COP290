@@ -1,7 +1,7 @@
 #include "character.cpp"
 #include "server.cpp"
 #include "client.cpp"
-#include "interface.cpp"
+// #include "interface.cpp"
 
 std::vector<int> dataDecode(std::string s){
     std::vector<int> v;
@@ -38,6 +38,10 @@ private:
     std::pair<int,int> loc1;
     std::pair<int,int> loc2;
     // Interface* interface;
+    TTF_Font* font1;
+    SDL_Texture* fontarea;
+    int health_width;
+    int health_height;
 public:
     Game(){};
     ~Game(){};
@@ -59,6 +63,25 @@ public:
             exit(1);
     	}
         // interface=new Interface(window,renderer);
+        font1=TTF_OpenFont("./assets/fonts/AmaticSC-Bold.ttf",16);
+        if(font1==NULL){
+            std::cerr<<"Failed to load font: "<<TTF_GetError()<<std::endl;
+            exit(1);
+        }
+        std::string msg="Your Health: 1000";
+        SDL_Surface* txt=TTF_RenderText_Solid(font1, msg.c_str(),{255,255,255});
+        if(txt==NULL){
+            std::cerr<<"Failed to render text: "<<TTF_GetError()<<std::endl;
+            exit(1);
+        }
+        fontarea=SDL_CreateTextureFromSurface(renderer,txt);
+        if(fontarea==NULL){
+            std::cerr<<"Failed to load text surface: "<<TTF_GetError()<<std::endl;
+            exit(1);
+        }
+        SDL_Rect txtpos={camera1.x+10,camera1.y+10,txt->w,txt->h};
+        SDL_FreeSurface(txt);
+        SDL_RenderCopy(renderer,fontarea,NULL,&txtpos);
         gameOn=true;
     }
 

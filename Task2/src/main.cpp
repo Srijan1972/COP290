@@ -17,6 +17,10 @@ int main(int argc,char* argv[]){
         std::cerr<<"Failed to initialize sound: "<<Mix_GetError()<<std::endl;
         return 1;
     }
+    if(TTF_Init()!=0){
+        std::cerr<<"Failed to initialize font: "<<TTF_GetError()<<std::endl;
+        return 1;
+    }
     game=new Game();
     game->init("IIT Delhi Duel",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,SCREEN_WIDTH,SCREEN_HEIGHT);
     Tile* tileSet[TOTAL_TILES];

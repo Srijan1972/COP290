@@ -5,7 +5,7 @@ CC = g++
 # -w ignores all compiler warnings
 COMPILER_FLAGS = -w
 # Link to the libraries used
-LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_mixer
+LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
 # Name of the executable
 OBJ_NAME = duel
 

@@ -24,3 +24,6 @@ The command `make clean` deletes the executable and then `make` can be run again
 
 - Disney for providing the Duel of the Fates audio.
 - https://deepnight.net/tool/rpg-map/ to make the map.
+- https://forums.rpgmakerweb.com/index.php?threads%2Fmodern-citizen-sprites.117685%2F for the character sprites.
+- https://www.freepik.com/free-photo/3d-abstract-background-with-futuristic-particles_8419977.htm#page=2&query=game%20background&position=49&from_view=keyword for the backgrounds of the start and end screen.
+- https://opengameart.org/content/heart-pixel-art for the heart icon
