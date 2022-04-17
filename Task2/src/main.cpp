@@ -1,11 +1,12 @@
 #include "game.cpp"
-
+#include <chrono>
 Game* game;
 const int FPS=144; // Refresh rate of most screens
 const int delay=1000/FPS;
 
 int main(int argc,char* argv[]){
     int i = std::stoi(argv[1]);
+    bool flag = false;
     if(SDL_Init(SDL_INIT_EVERYTHING)!=0){
         std::cerr<<"Failed to initialize: "<<SDL_GetError()<<std::endl;
         return 1;
@@ -24,13 +25,22 @@ int main(int argc,char* argv[]){
     game->loadplayers(i);
     Uint32 start;
     int frame_length;
+    int frames;
     while(game->on()){
+        if(frames == 600){
+            frames = 0;
+            flag = false;
+        }else if(frames == 500){
+            flag = true;
+        }
         start=SDL_GetTicks();
         game->handleEvents(i);
-        game->update(tileSet,i);
+        game->update(tileSet,i,flag);
+        game->datasend(i);
         game->render(tileSet,i);
         frame_length=SDL_GetTicks()-start;
         SDL_Delay(std::max(delay-frame_length,0)); // Synchronize device refresh rate and game UI change rate
+        frames++;
     }
     game->clean(tileSet,i);
     return 0;

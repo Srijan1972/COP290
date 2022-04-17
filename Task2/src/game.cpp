@@ -33,10 +33,14 @@ private:
     Character* player1;
     Map* pMap2;
     Character* player2;
+    Map* pMap3;
+    Character* life;
     Server* S;
     Client* C;
     std::pair<int,int> loc1;
     std::pair<int,int> loc2;
+    int atck12;
+    int atck21;
     // Interface* interface;
 public:
     Game(){};
@@ -69,7 +73,9 @@ public:
         pMap1->load("./assets/images/ch2.png",renderer);
         pMap2 = new Map();
         pMap2->load("./assets/images/ch1.bmp",renderer);
-        setTiles(tileSet);
+        pMap3 = new Map();
+        pMap3->load("./assets/images/heart.png",renderer);
+        setTiles(tileSet);      
         bgmusic=Mix_LoadMUS("./assets/sounds/Duel_of_the_Fates.mp3");
         Mix_PlayMusic(bgmusic,-1);
     }
@@ -98,21 +104,42 @@ public:
         if(i == 0) player1->handleEvent(e);
         if(i == 1) player2->handleEvent(e);
     }
-    void update(Tile* tileSet[],int i){
-        player1->attack(player2);
-        player2->attack(player1);
+    void update(Tile* tileSet[],int i,bool lifeflag){
+        if(lifeflag){
+            life= new Character(540,880);
+        }else{
+            life= new Character(1540,880);
+        }
         if(i == 0){
+            if(player1->attack(player2)){
+                atck12 = 1;
+            }else{
+                atck12 = 0;
+            }
+            player1->heal(life);
             player1->move(tileSet);
             player1->adjustCamera(camera1);
-            player2->update(dataDecode(S->get()),player1);
             loc1 = player1->giveloc();
-            S->send(std::to_string(loc1.first) + " " + std::to_string(loc1.second) + " " + std::to_string(player2->health));
-
         }else if(i == 1){
+            if (player2->attack(player1)){
+                atck21 = 1;
+            }else{
+                atck21 = 0;
+            }
+            player2->heal(life);
             player2->move(tileSet);
             player2->adjustCamera(camera1);
             loc2 = player2->giveloc();
-            C->send(std::to_string(loc2.first) + " " + std::to_string(loc2.second) + " " + std::to_string(player1->health));
+        }
+    }
+
+    void datasend(int i){
+        if(i == 0){
+            player2->update(dataDecode(S->get()),player1);
+            S->send(std::to_string(loc1.first) + " " + std::to_string(loc1.second) + " " + std::to_string(player1->health) + " " + std::to_string(atck12));
+
+        }else if(i == 1){
+            C->send(std::to_string(loc2.first) + " " + std::to_string(loc2.second) + " " + std::to_string(player2->health) + " " + std::to_string(atck21));
             player1->update(dataDecode(C->get()),player2);
         }
     }
@@ -125,7 +152,9 @@ public:
         }
         player1->render(camera1,pMap1,renderer);
         player2->render(camera1,pMap2,renderer);
+        life->render(camera1,pMap3,renderer);
         SDL_RenderPresent(renderer);
+        // std::cout<<player1->health<<" "<<player2->health<<"\n";
     }
 
     void clean(Tile* tileSet[],int i){
@@ -138,6 +167,7 @@ public:
         tileMap->free();
         pMap1->free();
         pMap2->free();
+        pMap3->free();
         SDL_DestroyWindow(window);
         SDL_DestroyRenderer(renderer);
         Mix_FreeMusic(bgmusic);

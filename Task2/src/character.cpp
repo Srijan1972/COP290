@@ -5,6 +5,7 @@ private:
     SDL_Rect char_box;
     int vx,vy;
     bool attacking;
+    bool healing;
 public:
     int health=1000;
     const int PL_WIDTH=48;
@@ -29,6 +30,7 @@ public:
                 case SDLK_LEFT: vx -= maxv; break;
                 case SDLK_RIGHT: vx += maxv; break;
                 case SDLK_SPACE: attacking=true; break;
+                case SDLK_h: healing=true;break;
             }
         }
         //If a key was released
@@ -42,6 +44,7 @@ public:
                 case SDLK_LEFT: vx += maxv; break;
                 case SDLK_RIGHT: vx -= maxv; break;
                 case SDLK_SPACE: attacking=true; break;
+                case SDLK_h: healing=true;break;
             }
         }
     }
@@ -66,15 +69,26 @@ public:
 
     SDL_Rect getBox(){return char_box;}
 
-    void attack(Character* other){
-        if(attacking && checkCollision(char_box,other->getBox())) other->health-=50;
+    bool attack(Character* other){
+        bool b;
+        if(attacking && checkCollision(char_box,other->getBox())) b = attacking;
         attacking=false;
+        return b;
+    }
+
+    void heal(Character* other){
+        if(healing && checkCollision(char_box,other->getBox())) health+=25;
+        healing=false;
     }
 
     void update(std::vector<int> data,Character* other){
         char_box.x=data[0];
         char_box.y=data[1];
-        other->health=data[2];
+        health=data[2];
+        if (data[3] == 1){
+            other->health-=50;
+        }
+
     }
 
     void adjustCamera(SDL_Rect& camera){
