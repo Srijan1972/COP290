@@ -35,13 +35,13 @@ const int SCREEN_WIDTH = 960;
 const int SCREEN_HEIGHT = 540;
 
 //The dimensions of the level
-const int LEVEL_WIDTH = 2400;
-const int LEVEL_HEIGHT = 1440;
+const int LEVEL_WIDTH = 3200;
+const int LEVEL_HEIGHT = 1600;
 
 //Tile constants
 const int TILE_WIDTH = 160;
 const int TILE_HEIGHT = 160;
-const int TOTAL_TILES = 135;
+const int TOTAL_TILES = 200;
 const int TOTAL_TILE_SPRITES = 40;
 
 //The different tile sprites
@@ -81,6 +81,7 @@ const int TILE_POOL1 = 32;
 const int TILE_POOL2 = 33;
 const int TILE_POOL3 = 34;
 const int TILE_POOL4 = 35;
+const int TILE_HOSP = 36;
 SDL_Rect gTileClips[TOTAL_TILE_SPRITES];
 
 class Map
@@ -200,7 +201,7 @@ public:
 
 void setTiles(Tile* tiles[]){
     int x=0,y=0;
-    std::ifstream map("./assets/lazy1.map");
+    std::ifstream map("./assets/tilespr.map");
     if(map.fail()){
         std::cerr<<"Unable to load map"<<std::endl;
         exit(1);
@@ -380,5 +381,9 @@ void setTiles(Tile* tiles[]){
 	gTileClips[ TILE_POOL4 ].y = 160;
 	gTileClips[ TILE_POOL4 ].w = TILE_WIDTH;
 	gTileClips[ TILE_POOL4 ].h = TILE_HEIGHT;
+	gTileClips[ TILE_HOSP ].x = 1280;
+	gTileClips[ TILE_HOSP ].y = 320;
+	gTileClips[ TILE_HOSP ].w = TILE_WIDTH;
+	gTileClips[ TILE_HOSP ].h = TILE_HEIGHT;
     map.close();
 }

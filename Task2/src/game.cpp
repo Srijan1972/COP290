@@ -125,7 +125,7 @@ public:
 
     void loadplayers(){
         player1= new Character(240,0);
-        player2= new Character(2240,160);
+        player2= new Character(3040,160);
         if (i == 0){
             S = new Server("127.0.0.1");
         }
@@ -149,9 +149,9 @@ public:
     }
     void update(Tile* tileSet[],bool lifeflag){
         if(lifeflag){
-            life= new Character(540,880);
+            life= new Character(860,880);
         }else{
-            life= new Character(1540,880);
+            life= new Character(2340,880);
         }
         if(i == 0){
             if(player1->attack(player2)){
