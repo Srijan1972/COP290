@@ -25,6 +25,9 @@ class Game
 private:
     SDL_Rect camera1={0,0,SCREEN_WIDTH,SCREEN_HEIGHT};
     bool gameOn;
+    int disHealth = 1000;
+    TTF_Font* gFont = nullptr;
+    Map* fontmap;
     SDL_Window* window;
     SDL_Renderer* renderer;
     Mix_Music* bgmusic;
@@ -42,7 +45,6 @@ private:
     int atck12;
     int atck21;
     // Interface* interface;
-    TTF_Font* font1;
     SDL_Texture* menu;
     int health_width;
     int health_height;
@@ -110,6 +112,7 @@ public:
         tileMap=new Map();
         tileMap->load("./assets/images/tileMap.png",renderer);
         pMap1 = new Map();
+        gFont = TTF_OpenFont( "./assets/fonts/AmaticSC-Bold.ttf", 48 );
         pMap1->load("./assets/images/ch2.png",renderer);
         pMap2 = new Map();
         pMap2->load("./assets/images/ch1.bmp",renderer);
@@ -160,6 +163,7 @@ public:
             player1->move(tileSet);
             player1->adjustCamera(camera1);
             loc1 = player1->giveloc();
+            disHealth=player1->health;
         }else if(i == 1){
             if (player2->attack(player1)){
                 atck21 = 1;
@@ -170,7 +174,11 @@ public:
             player2->move(tileSet);
             player2->adjustCamera(camera1);
             loc2 = player2->giveloc();
+            disHealth=player2->health;
         }
+        SDL_Color Color = { 0, 0, 0 };
+        fontmap = new Map();
+        fontmap->loadText( "PLAYER HEALTH IS : "+std::to_string(disHealth), Color, renderer,gFont );
     }
 
     void datasend(){
@@ -243,6 +251,7 @@ public:
             for(int i=0;i<TOTAL_TILES;i++){
                 tileSet[i]->render(camera1,tileMap,renderer);
             }
+            fontmap->render(( SCREEN_WIDTH - fontmap->getWidth() ) / 2,0,NULL,renderer);
             player1->render(camera1,pMap1,renderer);
             player2->render(camera1,pMap2,renderer);
             life->render(camera1,pMap3,renderer);
@@ -258,12 +267,16 @@ public:
             }
         }
         tileMap->free();
+        TTF_CloseFont( gFont );
+        gFont = NULL;
         pMap1->free();
         pMap2->free();
         pMap3->free();
+        fontmap->free();
         SDL_DestroyWindow(window);
         SDL_DestroyRenderer(renderer);
         Mix_FreeMusic(bgmusic);
+        TTF_Quit();
         Mix_Quit();
         IMG_Quit();
         SDL_Quit();

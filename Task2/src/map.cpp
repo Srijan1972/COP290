@@ -116,6 +116,40 @@ public:
         map_text=new_text;
     }
 
+    void loadText( std::string Text, SDL_Color Color ,SDL_Renderer* renderer, TTF_Font* gFont)
+	{
+		free();
+		SDL_Texture* new_text=nullptr;
+		SDL_Surface* loaded = TTF_RenderText_Solid( gFont, Text.c_str(), Color );
+		if( loaded == nullptr )
+		{
+			std::cerr<<"Could not load FONT: "<<Text<<' '<<SDL_GetError()<<std::endl;
+            exit(1);
+		}
+		else
+		{
+			//Create texture from surface pixels
+	        new_text = SDL_CreateTextureFromSurface( renderer, loaded );
+			if( new_text == nullptr )
+			{
+				std::cerr<<"Could not make texture: "<<Text<<' '<<SDL_GetError()<<std::endl;
+            	exit(1);
+			}
+			else
+			{
+				//Get image dimensions
+	        	mapw=loaded->w;
+	        	maph=loaded->h;
+			}
+
+			//Get rid of old surface
+			SDL_FreeSurface( loaded );
+			map_text=new_text;
+		}
+		
+		//Return success
+	}
+
     void free(){
         if(map_text!=nullptr){
             SDL_DestroyTexture(map_text);
