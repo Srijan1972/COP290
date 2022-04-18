@@ -20,7 +20,7 @@ private:
     int sockVal;
     struct sockaddr_in serv, client;
     socklen_t l;
-    std::string IP = "localhost";
+    std::string IP = "127.0.0.1";
 
 public:
     // Constructor
