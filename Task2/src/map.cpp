@@ -129,7 +129,6 @@ public:
 		}
 		else
 		{
-			//Create texture from surface pixels
 	        new_text = SDL_CreateTextureFromSurface( renderer, loaded );
 			if( new_text == nullptr )
 			{
@@ -138,12 +137,9 @@ public:
 			}
 			else
 			{
-				//Get image dimensions
 	        	mapw=loaded->w;
 	        	maph=loaded->h;
 			}
-
-			//Get rid of old surface
 			SDL_FreeSurface( loaded );
 			map_text=new_text;
 		}

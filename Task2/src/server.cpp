@@ -20,10 +20,11 @@ private:
     int sockVal;
     struct sockaddr_in serv, client;
     socklen_t l;
+    std::string IP = "localhost";
 
 public:
     // Constructor
-    Server(std::string IP){
+    Server(){
         this->ipaddr = IP;
         this->port = 1234;
 
@@ -44,37 +45,26 @@ public:
     
     void send(std::string message)
     {
-        // Try sending the message
         if(sendto(sockVal, message.c_str(), message.length(), 0, (struct sockaddr *)&client, l) < 0)
         {
-            // Print the error
             fprintf(stderr,"Cannot send message...");
         }
     }
     
     std::string get()
     {
-        // Reset the buffer
         memset(buffer, 0, sizeof(buffer));
-        
-        // Recieve the messages
         int bytesRecieved = recvfrom(sockVal, buffer, sizeof(buffer), 0, (struct sockaddr *)&client, &l);
-        
-        // Return the message
         return std::string(buffer, bytesRecieved);
     }
     
    void end()
     {
-        // Set the active false
         active = false;
 
-        // Close the socket
         close(sockVal);
     }
 
-
-    // Returns true if the socket is active
     bool isActive()
     {
         return active;

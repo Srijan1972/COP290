@@ -127,7 +127,7 @@ public:
         player1= new Character(240,0);
         player2= new Character(3040,160);
         if (i == 0){
-            S = new Server("127.0.0.1");
+            S = new Server();
         }
         if (i == 1){
             C = new Client("127.0.0.1");
