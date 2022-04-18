@@ -1,3 +1,2 @@
-2 players can play on localhost.
-Both characters are movable via arrow keys.
-Background music also playing.
+Game compiles and runs fine on localhost.
+Also arbitrary ending of game on one side will cause the game to hang on the other player's end. It will then have to be force quitted.
