@@ -20,6 +20,13 @@ make
 
 The command `make clean` deletes the executable and then `make` can be run again to recompile the game.
 
+## Playing Instructions
+
+- Characters are moved using arrow keys.
+- When in range, characters can attack each other using the spacebar.
+- When in range of the heart, some health will regenerate if the h key is pressed.
+- On game ending a msg is displayed telling the player if they won.
+
 ## Acknowledgements
 
 - Disney for providing the Duel of the Fates audio.
