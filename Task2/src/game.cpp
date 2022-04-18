@@ -113,9 +113,9 @@ public:
         tileMap->load("./assets/images/tileMap.png",renderer);
         pMap1 = new Map();
         gFont = TTF_OpenFont( "./assets/fonts/AmaticSC-Bold.ttf", 48 );
-        pMap1->load("./assets/images/ch2.png",renderer);
+        pMap1->load("./assets/images/ch1.png",renderer);
         pMap2 = new Map();
-        pMap2->load("./assets/images/ch1.bmp",renderer);
+        pMap2->load("./assets/images/ch2.png",renderer);
         pMap3 = new Map();
         pMap3->load("./assets/images/heart.png",renderer);
         setTiles(tileSet);      
@@ -125,7 +125,7 @@ public:
 
     void loadplayers(){
         player1= new Character(240,0);
-        player2= new Character(240,1120);
+        player2= new Character(2240,160);
         if (i == 0){
             S = new Server("127.0.0.1");
         }

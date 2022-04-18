@@ -34,7 +34,7 @@ int main(int argc,char* argv[]){
         if(frames == 600){
             frames = 0;
             flag = false;
-        }else if(frames == 500){
+        }else if(frames == 300){
             flag = true;
         }
         start=SDL_GetTicks();
